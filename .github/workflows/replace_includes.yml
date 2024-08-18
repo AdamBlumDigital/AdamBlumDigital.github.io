@@ -1,0 +1,24 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Replace includes
+      run: |
+        find . -name '*.html' -exec sed -i -e '/<!--#include file=/!b' -e ':a' -e 'N' -e '$!ba' -e "s/<!--#include file=\"\([^\"]*\)\" -->/$(cat \1 | sed -e 's/[\/&]/\\&/g')/" {} \;
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./ # or your output directory if different
