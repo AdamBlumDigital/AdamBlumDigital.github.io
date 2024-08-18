@@ -33,7 +33,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Replace includes
         run: |
-          find . -name "*.html" -exec sed -i.bak -e '/<!-- #include file=".*" -->/ {r /dev/stdin' -e 'd}' -e "$(basename -s .html {}.html)" {} \;
+          find . -name "*.html" -exec sed -i.bak -E '/<!-- #include file="([^"]+)" -->/e cat \1' {} \;
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
