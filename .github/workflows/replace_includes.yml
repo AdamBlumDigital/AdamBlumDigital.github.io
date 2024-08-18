@@ -20,5 +20,4 @@ jobs:
     - name: Deploy to GitHub Pages
       uses: actions/deploy-pages@v4
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./ # or your output directory if different
+        token: ${{ secrets.GITHUB_TOKEN }}
